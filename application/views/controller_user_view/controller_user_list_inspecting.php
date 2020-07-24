@@ -11,7 +11,7 @@
     </div>
 </section>
 
-<!-- Modal edit inspection -->
+<!-- Modal add inspection -->
 <div class="modal fade" id="add-event-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -23,7 +23,7 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <form id="edit-inspection-form">
+                    <form id="add-inspection-form">
                         <div class="form-group">
                             <label>หน่วย</label>
                             <select class="form-control" id="unit-id" name="unit_id">
@@ -55,7 +55,7 @@
                             <button class="btn btn-info">บันทึก</button>
                         </div>
                     </form>
-                    <div id="edit-inspection-form-result"></div>
+                    <div id="add-inspection-form-result"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -64,7 +64,7 @@
         </div>
     </div>
 </div>
-<!-- END Modal edit inspection -->
+<!-- END Modal add inspection -->
 
 <link href='<?= base_url('assets/fullcalendar/packages/core/main.css') ?>' rel='stylesheet' />
 <link href='<?= base_url('assets/fullcalendar/packages/daygrid/main.css') ?>' rel='stylesheet' />
@@ -87,7 +87,8 @@
             }, 1000);
         };
 
-        function genCalendar() {
+        function genCalendar(eventsData) {
+            console.log(eventsData);
             let calendarEl = document.getElementById('calendar');
 
             let calendar = new FullCalendar.Calendar(calendarEl, {
@@ -106,15 +107,15 @@
                     console.log(data);
                 },
                 eventTextColor: '#fff',
-                events: [{
-                    title: 'Long Event',
-                    start: '2020-07-07',
-                    end: '2020-07-10'
-                }]
+                events: eventsData
+                // events: [{
+                //     title: 'Long Event',
+                //     start: '2020-07-07',
+                //     end: '2020-07-10'
+                // }]
             });
 
             calendar.render();
-            console.log(calendar)
         };
 
         function get_unit() {
@@ -123,7 +124,6 @@
                     dataType: 'json'
                 })
                 .done(res => {
-                    console.log(res);
                     let option = '';
                     res.forEach(element => {
                         option += `<option value="${element.NPRT_UNIT}">${element.NPRT_ACM}</option>`;
@@ -142,7 +142,6 @@
                     dataType: 'json'
                 })
                 .done(res => {
-                    console.log(res);
                     let option = '';
                     res.forEach(element => {
                         option += `<option value="${element.INSPE_ID}">${element.INSPE_NAME}</option>`;
@@ -155,16 +154,30 @@
                 });
         }
 
+        function get_events() {
+            $.get({
+                    url: '<?= site_url('oig_service/ajax_get_event_data') ?>',
+                    dataType: 'json'
+                })
+                .done(res => {
+                    genCalendar(res);
+                    // console.log(result);
+                })
+                .fail((jhr, status, error) => {
+                    console.error(jhr, status, error);
+                });
+        }
+
         showActiveMenu();
-        genCalendar();
         get_unit();
         get_inspection();
+        get_events();
 
         $("#add-inspection-event-nav").click(function() {
             $("#add-event-modal").modal();
         });
 
-        $("#edit-inspection-form").submit(function(event) {
+        $("#add-inspection-form").submit(function(event) {
             event.preventDefault();
             let formData = $(this).serialize();
 

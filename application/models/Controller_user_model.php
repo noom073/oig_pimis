@@ -51,6 +51,6 @@ class Controller_user_model extends CI_Model {
         $update = $this->oracle->update('PIMIS_INSPECTIONS', $field);
 
         return $update;
-    }
+    }   
 
 }

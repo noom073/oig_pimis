@@ -107,4 +107,5 @@ class Controller_user extends CI_Controller
 	{
 		echo json_encode($this->input->post());
 	}
+
 }
