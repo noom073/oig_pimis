@@ -9,6 +9,7 @@
         <div class="h4">ปฏิทินการตรวจราชการ:</div>
 
         <div class="container">
+            <div id="loading-calendar">Calendar is loading .....</div>
             <div id="calendar" style="height: 70%; width: 100%; overflow-x: auto;"></div>
         </div>
 
@@ -83,12 +84,11 @@
     $(document).ready(function() {
         function showActiveMenu() {
             setTimeout(() => {
-                $("#list-inspecting.nav-link").addClass("active");                
+                $("#list-inspecting.nav-link").addClass("active");
             }, 1000);
         };
 
-        function genCalendar(eventsData) {
-            console.log(eventsData);
+        function genCalendar() {
             let calendarEl = document.getElementById('calendar');
 
             let calendar = new FullCalendar.Calendar(calendarEl, {
@@ -104,15 +104,22 @@
                     console.log(data);
                 },
                 eventClick: (data) => {
-                    console.log(data);
+                    console.log(data.event);
                 },
                 eventTextColor: '#fff',
-                events: eventsData
-                // events: [{
-                //     title: 'Long Event',
-                //     start: '2020-07-07',
-                //     end: '2020-07-10'
-                // }]
+                events: {
+                    url: '<?= site_url('oig_service/ajax_get_event_data') ?>',
+                    failure: function() {
+                        console.error('there was an error while fetching events!');
+                    }
+                },
+                loading: (isLoading) => {
+                    if (isLoading === false) {
+                        $("#loading-calendar").hide();
+                    } else {
+                        $("#loading-calendar").show();
+                    }
+                }
             });
 
             calendar.render();
@@ -154,24 +161,10 @@
                 });
         }
 
-        function get_events() {
-            $.get({
-                    url: '<?= site_url('oig_service/ajax_get_event_data') ?>',
-                    dataType: 'json'
-                })
-                .done(res => {
-                    genCalendar(res);
-                    // console.log(result);
-                })
-                .fail((jhr, status, error) => {
-                    console.error(jhr, status, error);
-                });
-        }
-
         showActiveMenu();
         get_unit();
         get_inspection();
-        get_events();
+        genCalendar();
 
         $("#add-inspection-event-nav").click(function() {
             $("#add-event-modal").modal();
