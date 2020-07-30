@@ -2,10 +2,10 @@
     <div class="col-md-4 mx-auto bg-light">
         <div class="p-3">
             <div class="text-center mb-3">
-                <div class="h2">ระบบสารสนเทศเพื่อการบริหารผลการตรวจการปฏิบัติราชการ</div>
-                <div class="">Performance Inspection Management Information System</div>
                 <img src="<?= base_url('assets/images/logo.png'); ?>" width="125px" alt="สจร.ทหาร">
-                <div>สำนักงานจเรทหาร กองบัญชาการกองทัพไทย</div>
+                <div class="mb-3">สำนักงานจเรทหาร กองบัญชาการกองทัพไทย</div>
+                <div class="h4">ระบบสารสนเทศเพื่อการบริหารผลการตรวจการปฏิบัติราชการ</div>
+                <div class="">Performance Inspection Management Information System</div>
             </div>
 
             <form id="login-form">

@@ -1,8 +1,15 @@
 <section>
-    <div class="container-fluid bg-light">
-        <div>
-            <h3>ประเภทการตรวจ</h3>
-        </div>
+    <nav class="nav bg-light">
+        <a class="btn btn-light" id="add-inspection-nav" href="#">เพิ่มหัวข้อการตรวจ</a>
+        <!-- <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link disabled" href="#">Disabled</a> -->
+    </nav>
+</section>
+
+<section>
+    <div class="container-fluid bg-light py-3">
+        <div class="h4">ประเภทการตรวจ:</div>
 
         <div class="container">
             <div class="table-responsive">
@@ -106,8 +113,7 @@
     $(document).ready(function() {
         let showActiveMenu = function() {
             setTimeout(() => {
-                $("#controller-user-navbar > .navbar-nav > li#type-inspection")
-                    .addClass("active");
+                $("#type-inspection.nav-link").addClass("active");
                 console.log('ok');
             }, 1000);
 

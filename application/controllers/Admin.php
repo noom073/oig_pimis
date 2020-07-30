@@ -29,7 +29,7 @@ class Admin extends CI_Controller
 		$res['types'] = $this->admin_model->get_type_users()->result_array();
 
 		$this->load->view('foundation_view/header');
-		$this->load->view('admin_view/admin_navbar');
+		$this->load->view('foundation_view/navbar_basic');
 		$this->load->view('admin_view/admin_menu');
 		$this->load->view('admin_view/admin_list_user', $res);
 		$this->load->view('foundation_view/footer');

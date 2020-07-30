@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="<?= base_url('assets/images/logo.png') ?>" />
-    <title>OIG-PIMIS</title>
+    <title>OIG-PIMIS ระบบสารสนเทศเพื่อการบริหารผลการตรวจการปฏิบัติราชการ</title>
 
     <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/main.css') ?>">

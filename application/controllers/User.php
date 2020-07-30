@@ -10,14 +10,13 @@ class User extends CI_Controller {
 		$this->load->library('session');
 		$this->load->library('authentication');
 
-		$isLogged = $this->authentication->check_type_user('user');
-		if ($isLogged == false) {
-			$this->authentication->go_home();
-		}
+		// $isLogged = $this->authentication->check_type_user('user');
+		// if ($isLogged == false) {
+		// 	$this->authentication->go_home();
+		// }
     }
 
 	public function index() {
-		echo 'user';
 		$this->load->model('user_model');
 		$this->load->model('auth_model');
 
@@ -25,7 +24,7 @@ class User extends CI_Controller {
 		// var_dump($this->authentication->check_login());
 
 		$this->load->view('foundation_view/header');
-		$this->load->view('foundation_view/menu');
+		$this->load->view('foundation_view/navbar_basic');
 		$this->load->view('user_view/user_index');
 		$this->load->view('foundation_view/footer');
 	}

@@ -1,6 +1,6 @@
 <section>
     <nav class="navbar navbar-expand-lg navbar-dark my-bg-blue-one">
-        <a class="navbar-brand" href="<?= site_url() ?>">ระบบสารสนเทศเพื่อการบริหารผลการตรวจการปฏิบัติราชการ</a>
+        <a class="navbar-brand" href="#">ระบบสารสนเทศเพื่อการบริหารผลการตรวจการปฏิบัติราชการ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#admin-navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,7 +8,7 @@
             <div class="ml-auto">
                 <a id="time-moment" class="moment navbar-text text-light"></a>
                 <?php if ($this->session->isLogged == false) { ?>
-                    <a href="<?= site_url('login') ?>" class="btn btn-sm btn-info">Login</a>
+                    <a href="<?= site_url('login') ?>" class="btn btn-sm btn-danger">Login</a>
                 <?php } ?>
                 <?php if ($this->session->isLogged == true) { ?>
                     <a href="<?= site_url('login/logout') ?>" class="btn btn-sm btn-danger">Logout</a>

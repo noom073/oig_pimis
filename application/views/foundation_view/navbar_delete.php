@@ -1,6 +1,6 @@
 <section>
     <nav class="navbar navbar-expand-lg navbar-dark my-bg-blue-one">
-        <a class="navbar-brand" href="#">OIG-PIMIS</a>
+        <a class="navbar-brand" href="#">ระบบสารสนเทศเพื่อการบริหารผลการตรวจการปฏิบัติราชการ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#admin-navbar">
             <span class="navbar-toggler-icon"></span>
         </button>

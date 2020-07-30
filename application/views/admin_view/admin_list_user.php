@@ -1,12 +1,12 @@
 <section>
-    <div class="container-fluid bg-light">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Manage user</li>
-                <li class="breadcrumb-item">Privilege</li>
-            </ol>
-        </nav>
+    <nav class="nav bg-light">
+        <a class="btn btn-light" id="add-user-nav" href="#">Add user</a>
+    </nav>
+</section>
 
+<section">
+    <div class="container-fluid bg-light py-3">
+        <div class="h4">ข้อมูล User:</div>
         <div class="table-responsive">
             <table id="user-table" class="table" style="width: 100%">
                 <thead>
@@ -233,7 +233,7 @@
     $(document).ready(function() {
         console.log('ok');
         setTimeout(() => {
-            $("#admin-navbar > .navbar-nav > li#admin-manage-user").addClass("active");
+            $("#admin-manage-user.nav-link").addClass("active");
 
         }, 1000);
         generateTable();
