@@ -115,9 +115,9 @@
                 },
                 loading: (isLoading) => {
                     if (isLoading === false) {
-                        $("#loading-calendar").hide();
+                        $("#loading-calendar").prop('class', 'invisible');
                     } else {
-                        $("#loading-calendar").show();
+                        $("#loading-calendar").prop('class', 'visible');
                     }
                 }
             });

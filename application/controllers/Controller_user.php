@@ -101,8 +101,6 @@ class Controller_user extends CI_Controller
 		$this->load->view('foundation_view/header');
 		$this->load->view('foundation_view/navbar_basic');
 		$this->load->view('controller_user_view/controller_user_menu');
-		// $this->load->view('controller_user_view/controller_user_navbar');
-		// $this->load->view('controller_user_view/controller_user_nav/inspection_event_nav');
 		$this->load->view('controller_user_view/controller_user_list_inspecting', $data);
 		$this->load->view('foundation_view/footer');
 	}
@@ -110,6 +108,16 @@ class Controller_user extends CI_Controller
 	public function ajax_insert_inspection_event()
 	{
 		echo json_encode($this->input->post());
+	}
+
+	public function subject_inspection()
+	{
+		$data = '';
+		$this->load->view('foundation_view/header');
+		$this->load->view('foundation_view/navbar_basic');
+		$this->load->view('controller_user_view/controller_user_menu');
+		$this->load->view('controller_user_view/subject_inspection_view', $data);
+		$this->load->view('foundation_view/footer');
 	}
 
 }
