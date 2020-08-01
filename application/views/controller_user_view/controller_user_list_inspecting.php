@@ -10,7 +10,7 @@
 
         <div class="container">
             <div id="loading-calendar">Calendar is loading .....</div>
-            <div id="calendar" style="height: 70%; width: 100%; overflow-x: auto;"></div>
+            <div id="calendar" style="height: 70%; width: 100%;"></div>
         </div>
 
     </div>
@@ -71,14 +71,9 @@
 </div>
 <!-- END Modal add inspection -->
 
-<link href='<?= base_url('assets/fullcalendar/packages/core/main.css') ?>' rel='stylesheet' />
-<link href='<?= base_url('assets/fullcalendar/packages/daygrid/main.css') ?>' rel='stylesheet' />
-<link href='<?= base_url('assets/fullcalendar/packages/list/main.css') ?>' rel='stylesheet' />
-
-<script src='<?= base_url('assets/fullcalendar/packages/core/main.js') ?>'></script>
-<script src='<?= base_url('assets/fullcalendar/packages/daygrid/main.js') ?>'></script>
-<script src='<?= base_url('assets/fullcalendar/packages/interaction/main.js') ?>'></script>
-<script src='<?= base_url('assets/fullcalendar/packages/list/main.js') ?>'></script>
+<!-- <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'> -->
+<link href='<?= base_url('assets/fullcalendar/lib/main.css') ?>' rel='stylesheet' />
+<script src='<?= base_url('assets/fullcalendar/lib/main.js') ?>'></script>
 
 <script>
     $(document).ready(function() {
@@ -92,12 +87,12 @@
             let calendarEl = document.getElementById('calendar');
 
             let calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['interaction', 'dayGrid', 'list'],
                 // locale: 'th'
-                header: {
-                    left: 'prev,next, today',
+                // themeSystem: 'bootstrap',
+                headerToolbar: {
+                    left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth, dayGridDay, listDay'
+                    right: 'dayGridMonth,timeGridWeek,listDay'
                 },
                 editable: true,
                 dateClick: (data) => {

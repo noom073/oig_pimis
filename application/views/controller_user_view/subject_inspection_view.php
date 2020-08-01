@@ -1,11 +1,22 @@
 <section>
     <div class="container-fluid bg-light py-3">
-        <div class="h4">หัวข้อการตรวจราชการ:</div>
-        <div>
-            <select class="form-control col-md-6" name="" id="list-inspection"></select>
+        <div class="p-3" style="background-color: #154360;">
+            <div class="h4 text-white d-inline">หัวข้อการตรวจราชการ:</div>
+            &nbsp;&nbsp;&nbsp; <select class="form-control col-md-4 d-inline" name="lnpection_id" id="list-inspection"></select>
         </div>
 
         <div class="container">
+            <div class="m-3 border bg-white">
+                <div class="h5 text-center text-white p-3" style="background-color: #154360;">รายการหัวข้อการตรวจ</div>
+                <div class="p-3">
+                    <p>1. การปฏิบัติตามนโยบาย (เฉพาะ) ของ ผบ.ทสส./ผบ.ศบท. ประจำปีงบประมาณ พ.ศ.๒๕๖๓</p>
+                    <p>2. การปฏิบัติตามนโยบาย (เฉพาะ) ของ ผบ.ทสส./ผบ.ศบท. ประจำปีงบประมาณ พ.ศ.๒๕๖๓</p>
+                </div>
+            </div>
+
+            <div>
+                <button id="add-subject-btn" class="btn btn-primary invisible">เพิ่มหัวข้อการตรวจ</button>
+            </div>
         </div>
     </div>
 </section>
@@ -54,14 +65,21 @@
 
 <script>
     $(document).ready(function() {
-        let showActiveMenu = function() {
-            setTimeout(() => {
-                $("#subject-inspection.nav-link").addClass("active");
-                console.log('ok');
-            }, 1000);
-        };
 
-        showActiveMenu();
+        function getSubject(inspectionID) {
+            console.log(inspectionID);
+        }
+
+        $("#list-inspection").change(function() {
+            let inspectionID = $(this).val();
+
+            if (inspectionID) {
+                getSubject(inspectionID);
+                $("#add-subject-btn").removeClass('invisible');
+            } else {
+                $("#add-subject-btn").addClass('invisible');
+            }
+        });
 
         $.get({
                 /** get inspection */
@@ -69,8 +87,8 @@
                 dataType: 'json'
             })
             .done(res => {
-                console.log(res);
-                let option = '';
+                // console.log(res);
+                let option = '<option value="">เลือกประเภทสายการตรวจ</option>';
                 res.forEach(element => {
                     option += `<option value="${element.INSPE_ID}">${element.INSPE_NAME}</option> `;
                 });
