@@ -1,17 +1,11 @@
 <section>
-    <nav class="nav bg-light px-2">
-        <a class="btn btn-light" id="add-inspection-nav" href="#">เพิ่มหัวข้อการตรวจ</a>
-        <!-- <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link disabled" href="#">Disabled</a> -->
-    </nav>
-</section>
-
-<section>
     <div class="container-fluid bg-light py-3">
         <div class="p-3" style="background-color: #154360;">
             <div class="h4 text-white">ประเภทการตรวจ:</div>
         </div>
+        <nav class="nav bg-light">
+            <a class="btn btn-light" id="add-inspection-nav" href="#">เพิ่มหัวข้อการตรวจ</a>
+        </nav>
 
         <div class="container">
             <div class="table-responsive">
