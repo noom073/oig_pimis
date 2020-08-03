@@ -1,12 +1,14 @@
 <section>
-    <nav class="nav bg-light">
+    <nav class="nav bg-light px-2">
         <!-- <a class="btn btn-light" id="add-inspection-event-nav" href="#">เพิ่มการออกหน่วยตรวจราชการ</a> -->
     </nav>
 </section>
 
 <section>
     <div class="container-fluid bg-light py-3">
-        <div class="h4">ปฏิทินการตรวจราชการ:</div>
+        <div class="p-3" style="background-color: #154360;">
+            <div class="h4 text-white">ปฏิทินการตรวจราชการ:</div>
+        </div>
 
         <div class="container">
             <div id="loading-calendar">Calendar is loading .....</div>
