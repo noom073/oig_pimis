@@ -2,7 +2,7 @@
     <div class="container-fluid bg-light py-3">
         <div class="p-3" style="background-color: #154360;">
             <div class="h4 text-white d-inline">หัวข้อการตรวจราชการ:</div>
-            &nbsp;&nbsp;&nbsp; <select class="form-control col-md-4 d-inline" name="lnpection_id" id="list-inspection"></select>
+            &nbsp;&nbsp;&nbsp;<select class="form-control col-md-4 d-inline" name="lnpection_id" id="list-inspection"></select>
         </div>
 
         <div class="container">
@@ -12,17 +12,18 @@
                     <p>1. การปฏิบัติตามนโยบาย (เฉพาะ) ของ ผบ.ทสส./ผบ.ศบท. ประจำปีงบประมาณ พ.ศ.๒๕๖๓</p>
                     <p>2. การปฏิบัติตามนโยบาย (เฉพาะ) ของ ผบ.ทสส./ผบ.ศบท. ประจำปีงบประมาณ พ.ศ.๒๕๖๓</p>
                 </div>
+
+                <div class="text-center">
+                    <button id="add-subject-btn" class="btn btn-primary invisible">เพิ่มหัวข้อการตรวจ</button>
+                </div>
             </div>
 
-            <div>
-                <button id="add-subject-btn" class="btn btn-primary invisible">เพิ่มหัวข้อการตรวจ</button>
-            </div>
         </div>
     </div>
 </section>
 
-<!-- Modal Create inspection -->
-<div class="modal fade" id="create-inspection-modal">
+<!-- Modal Create subject -->
+<div class="modal fade" id="create-subject-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,26 +34,18 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <form id="add-inspection-form">
+                    <form id="add-subject-form">
                         <div class="form-group">
-                            <label>ชื่อการตรวจ</label>
+                            <label>ชื่อหัวข้อการตรวจ</label>
                             <input class="form-control" type="text" name="inp_name">
-                        </div>
-                        <div class="form-group">
-                            <label>กลุ่มประเภทการตรวจ</label>
-                            <select class="form-control" name="inp_parent">
-                                <option value="">ไม่ระบุ</option>
-                                <?php foreach ($inpData as $r) { ?>
-                                    <option value="<?= $r['INSPE_ID'] ?>"><?= $r['INSPE_NAME'] ?></option>
-                                <?php } ?>
-                            </select>
                         </div>
 
                         <div class="form-group text-center">
+                            <input type="hidden" name="inspection_id" value="">
                             <button class="btn btn-info">บันทึก</button>
                         </div>
                     </form>
-                    <div id="add-inspection-form-result"></div>
+                    <div id="add-subject-form-result"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -66,15 +59,16 @@
 <script>
     $(document).ready(function() {
 
-        function getSubject(inspectionID) {
+        function setSubjectIDToModal(inspectionID) {
             console.log(inspectionID);
+            $("input[name='inspection_id']").val(inspectionID);
         }
 
         $("#list-inspection").change(function() {
             let inspectionID = $(this).val();
 
             if (inspectionID) {
-                getSubject(inspectionID);
+                setSubjectIDToModal(inspectionID);
                 $("#add-subject-btn").removeClass('invisible');
             } else {
                 $("#add-subject-btn").addClass('invisible');
@@ -98,5 +92,28 @@
             .fail((jhr, status, error) => {
                 console.error(jhr, status, error);
             });
+
+        $("#add-subject-btn").click(function() {
+            $("#create-subject-modal").modal();
+        });
+
+        $("#add-subject-form").submit(function(event) {
+            event.preventDefault();
+            let formData = $(this).serialize();
+            console.log(formData);
+
+            $.post({
+                    url: '<?= site_url('controller_user/ajax_add_subject')?>',
+                    data: formData,
+                    dataType: 'json'
+                })
+                .done(res => {
+                    console.log(res);
+                })
+                .fail((jhr, status, error) => {
+                    console.error(jhr, status, error);
+                });
+
+        });
     });
 </script>

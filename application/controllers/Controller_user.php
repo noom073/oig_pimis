@@ -120,4 +120,9 @@ class Controller_user extends CI_Controller
 		$this->load->view('foundation_view/footer');
 	}
 
+	public function ajax_add_subject()
+	{
+		$post = $this->input->post();
+		echo json_encode($post);
+	}
 }
