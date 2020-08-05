@@ -37,7 +37,7 @@
                     <form id="add-subject-form">
                         <div class="form-group">
                             <label>ชื่อหัวข้อการตรวจ</label>
-                            <input class="form-control" type="text" name="inp_name">
+                            <input class="form-control" type="text" name="subject_name">
                         </div>
 
                         <div class="form-group text-center">
@@ -59,16 +59,21 @@
 <script>
     $(document).ready(function() {
 
-        function setSubjectIDToModal(inspectionID) {
-            console.log(inspectionID);
-            $("input[name='inspection_id']").val(inspectionID);
+        function setSubjectIDToModal(select) {
+            console.log(select);
+            let key = select.selectedIndex;
+            let text = select[key].innerText;
+            let selected = select[key].value;
+
+            $("input[name='inspection_id']").val(selected);
+            $("#add-subject-btn").text(`เพิ่มหัวข้อ${text}`);
         }
 
         $("#list-inspection").change(function() {
             let inspectionID = $(this).val();
 
             if (inspectionID) {
-                setSubjectIDToModal(inspectionID);
+                setSubjectIDToModal($(this)[0]);
                 $("#add-subject-btn").removeClass('invisible');
             } else {
                 $("#add-subject-btn").addClass('invisible');
@@ -103,12 +108,24 @@
             console.log(formData);
 
             $.post({
-                    url: '<?= site_url('controller_user/ajax_add_subject')?>',
+                    url: '<?= site_url('controller_user/ajax_add_subject') ?>',
                     data: formData,
                     dataType: 'json'
                 })
                 .done(res => {
                     console.log(res);
+                    if (res.status) {
+                        $("#add-subject-form-result").attr('class', 'alert alert-success');
+                        $("#add-subject-form-result").text(res.text);
+                    } else {
+                        $("#add-subject-form-result").attr('class', 'alert alert-danger');
+                        $("#add-subject-form-result").text(res.text);
+                    }
+
+                    setTimeout(() => {
+                        $("#add-subject-form-result").attr('class', '');
+                        $("#add-subject-form-result").text('');
+                    }, 2500);
                 })
                 .fail((jhr, status, error) => {
                     console.error(jhr, status, error);

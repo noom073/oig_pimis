@@ -1,20 +1,24 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Controller_user_model extends CI_Model {
+class Controller_user_model extends CI_Model
+{
     var $oracle;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->oracle = $this->load->database('oracle', true);
     }
 
-    public function get_inspection() {
+    public function get_inspection()
+    {
         $this->oracle->order_by('INSPE_ID');
         $result = $this->oracle->get('PIMIS_INSPECTIONS');
         return $result;
     }
 
-    public function get_inspection_row($id) {
+    public function get_inspection_row($id)
+    {
         $this->oracle->where('INSPE_ID', $id);
         $this->oracle->order_by('INSPE_ID');
         $result = $this->oracle->get('PIMIS_INSPECTIONS');
@@ -28,7 +32,7 @@ class Controller_user_model extends CI_Model {
         $field['USER_UPDATE']   = $this->session->email;
 
         $date = date("Y-m-d H:i:s");
-        $this->oracle->set('TIME_UPDATE',"TO_DATE('{$date}','YYYY/MM/DD HH24:MI:SS')",false);
+        $this->oracle->set('TIME_UPDATE', "TO_DATE('{$date}','YYYY/MM/DD HH24:MI:SS')", false);
         $result = $this->oracle->insert('PIMIS_INSPECTIONS', $field);
 
         return $result;
@@ -51,6 +55,16 @@ class Controller_user_model extends CI_Model {
         $update = $this->oracle->update('PIMIS_INSPECTIONS', $field);
 
         return $update;
-    }   
+    }
 
+    public function add_subject($array)
+    {        
+        $this->oracle->set('SUBJECT_NAME', $array['subject_name']);
+        $this->oracle->set('INSPECTION_ID', $array['inspection_id'], false);
+        $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
+        $this->oracle->set('USER_UPDATE', $array['userEmail']);
+
+        $result = $this->oracle->insert('PIMIS_SUBJECT');
+        return $result;
+    }
 }

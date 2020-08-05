@@ -122,7 +122,20 @@ class Controller_user extends CI_Controller
 
 	public function ajax_add_subject()
 	{
-		$post = $this->input->post();
-		echo json_encode($post);
+		$data['subject_name'] 	= $this->input->post('subject_name');
+		$data['inspection_id'] 	= $this->input->post('inspection_id');
+		$data['time']			= date('Y-m-d H:m:i');
+		$data['userEmail']		= $this->session->email;
+
+		$insert = $this->controller_user_model->add_subject($data);
+		if ($insert) {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลเรียบร้อย';
+		} else {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
+		}
+		
+		echo json_encode($result);
 	}
 }
