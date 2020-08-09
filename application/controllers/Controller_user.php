@@ -124,6 +124,7 @@ class Controller_user extends CI_Controller
 	{
 		$data['subject_name'] 	= $this->input->post('subject_name');
 		$data['inspection_id'] 	= $this->input->post('inspection_id');
+		$data['order_subject']	= $this->input->post('order');
 		$data['time']			= date('Y-m-d H:m:i');
 		$data['userEmail']		= $this->session->email;
 
@@ -138,4 +139,24 @@ class Controller_user extends CI_Controller
 		
 		echo json_encode($result);
 	}
+
+	public function ajax_update_subject()
+	{
+		$data['subjectName'] 	= $this->input->post('subjectName');
+		$data['subjectID'] 		= $this->input->post('subjectID');
+		$data['subjectOrder']	= $this->input->post('subjectOrder');
+		$data['time']			= date('Y-m-d H:m:i');
+		$data['userEmail']		= $this->session->email;
+
+		$update = $this->controller_user_model->update_subject($data);
+		if ($update) {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลเรียบร้อย';
+		} else {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
+		}
+		echo json_encode($result);
+	}
+	
 }

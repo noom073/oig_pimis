@@ -61,10 +61,23 @@ class Controller_user_model extends CI_Model
     {        
         $this->oracle->set('SUBJECT_NAME', $array['subject_name']);
         $this->oracle->set('INSPECTION_ID', $array['inspection_id'], false);
+        $this->oracle->set('SUBJECT_ORDER', $array['order_subject']);
         $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
         $this->oracle->set('USER_UPDATE', $array['userEmail']);
 
         $result = $this->oracle->insert('PIMIS_SUBJECT');
+        return $result;
+    }    
+
+    public function update_subject($array)
+    {
+        $this->oracle->set('SUBJECT_NAME', $array['subjectName']);
+        $this->oracle->set('SUBJECT_ORDER', $array['subjectOrder']);
+        $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
+        $this->oracle->set('USER_UPDATE', $array['userEmail']);
+        $this->oracle->where('SUBJECT_ID', $array['subjectID']);
+
+        $result = $this->oracle->update('PIMIS_SUBJECT');
         return $result;
     }
 }

@@ -34,4 +34,19 @@ class Oig_service extends CI_Controller
         }, $events);
         echo json_encode($results);
     }
+
+    public function ajax_get_subject()
+	{
+        $id = $this->input->post('inspection_id');
+        $subject = $this->sv_model->get_subject($id)->result_array();
+		echo json_encode($subject);
+    }
+    
+    public function ajax_get_subject_one()
+    {
+        $subjectID = $this->input->post('subjectID');
+        $result = $this->sv_model->get_subject_one($subjectID)->row_array();
+
+        echo json_encode($result);
+    }
 }
