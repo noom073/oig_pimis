@@ -111,15 +111,28 @@
             $("#add-subject-btn").text(`เพิ่มหัวข้อ${text}`);
         }
 
-        function drawListSubject(object) {
-            let list = '';
-            let num = 0;
-            object.forEach(element => {
-                num += 1;
-                list += `<p class="d-flex">${num}. ${element.SUBJECT_NAME} <button class="ml-auto btn btn-sm btn-info edit-subject" data-subject-id="${element.SUBJECT_ID}">Edit</button></p>`;
+        function drawListSubject(inspectionID) {
+            $.post({
+                url: '<?= site_url('oig_service/ajax_get_subject') ?>',
+                data: {
+                    inspection_id: inspectionID
+                },
+                dataType: 'json'
+            }).done(res => {
+                console.log(res);
+                let list = '';
+                let num = 0;
+                res.forEach(element => {
+                    num += 1;
+                    list += `<p class="d-flex">${num}. ${element.SUBJECT_NAME} <button class="ml-auto btn btn-sm btn-info edit-subject" data-subject-id="${element.SUBJECT_ID}">Edit</button></p>`;
+                });
+
+                $("#list-subject").html(list);
+                $("#wait-subject").text('');
+            }).fail((jhr, status, error) => {
+                console.error(jhr, status, error);
             });
 
-            $("#list-subject").html(list);
         }
 
         /** ********************************************************/
@@ -130,21 +143,7 @@
 
             if (inspectionID) {
                 setSubjectIDToModal($(this)[0]);
-
-                $.post({
-                    url: '<?= site_url('oig_service/ajax_get_subject') ?>',
-                    data: {
-                        inspection_id: inspectionID
-                    },
-                    dataType: 'json'
-                }).done(res => {
-                    console.log(res);
-                    drawListSubject(res);
-                    $("#wait-subject").text('');
-                }).fail((jhr, status, error) => {
-                    console.error(jhr, status, error);
-                });
-
+                drawListSubject(inspectionID);
                 $("#add-subject-btn").removeClass('invisible');
             } else {
                 $("#add-subject-btn").addClass('invisible');
@@ -231,7 +230,8 @@
         $("#edit-subject-form").submit(function(event) {
             event.preventDefault();
             let formData = $(this).serialize();
-            console.table(formData);
+            let inspectionID = $("#list-inspection").val();
+            
             $.post({
                 url: '<?= site_url('controller_user/ajax_update_subject') ?>',
                 data: formData,
@@ -241,6 +241,7 @@
                 if (res.status) {
                     $("#edit-subject-form-result").attr('class', 'alert alert-success');
                     $("#edit-subject-form-result").text(res.text);
+                    drawListSubject(inspectionID);
                 } else {
                     $("#edit-subject-form-result").attr('class', 'alert alert-danger');
                     $("#edit-subject-form-result").text(res.text);
