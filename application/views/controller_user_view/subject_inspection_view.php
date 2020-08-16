@@ -1,14 +1,14 @@
 <section>
     <div class="container-fluid bg-light py-3">
         <div class="p-3" style="background-color: #154360;">
-            <div class="h4 text-white d-inline">หัวข้อการตรวจราชการ:</div>
+            <div class="h4 text-white d-inline">สายการตรวจราชการ:</div>
             &nbsp;&nbsp;&nbsp;<select class="form-control col-md-4 d-inline" name="lnpection_id" id="list-inspection"></select>
         </div>
 
         <div class="container">
             <div class="m-3 border bg-white">
                 <div class="h5 text-center text-white p-3" style="background-color: #154360;">รายการหัวข้อการตรวจ</div>
-                <div class="p-3" id="wait-subject">Wait for select inspection</div>
+                <div class="p-3" id="wait-subject">Please select inspection</div>
                 <div class="p-3" id="list-subject"></div>
 
                 <div class="text-center">
@@ -57,7 +57,7 @@
         </div>
     </div>
 </div>
-<!-- END Modal Create inspection -->
+<!-- END Modal Create subject -->
 
 <!-- Modal Edit subject -->
 <div class="modal fade" id="edit-subject-modal">
@@ -96,7 +96,7 @@
         </div>
     </div>
 </div>
-<!-- END Modal Edit inspection -->
+<!-- END Modal Edit subject -->
 
 <script>
     $(document).ready(function() {
@@ -119,12 +119,12 @@
                 },
                 dataType: 'json'
             }).done(res => {
-                console.log(res);
                 let list = '';
                 let num = 0;
                 res.forEach(element => {
                     num += 1;
-                    list += `<p class="d-flex">${num}. ${element.SUBJECT_NAME} <button class="ml-auto btn btn-sm btn-info edit-subject" data-subject-id="${element.SUBJECT_ID}">Edit</button></p>`;
+                    list += `<p class="d-flex">
+                    <a href="<?= site_url('controller_user/subject_question') ?>/${element.SUBJECT_ID}">${num}. ${element.SUBJECT_NAME}</a> <button class="ml-auto btn btn-sm btn-info edit-subject" data-subject-id="${element.SUBJECT_ID}">Edit</button></p>`;
                 });
 
                 $("#list-subject").html(list);
@@ -139,10 +139,10 @@
 
         $("#list-inspection").change(function() {
             let inspectionID = $(this).val();
-            $("#wait-subject").text('Loading data .....');
 
             if (inspectionID) {
-                setSubjectIDToModal($(this)[0]);
+                $("#wait-subject").text('Loading data .....');
+                setSubjectIDToModal($(this)[0]); /** ตั้งค่า inspecttion key ใส่ไว้ใน modal add subject*/
                 drawListSubject(inspectionID);
                 $("#add-subject-btn").removeClass('invisible');
             } else {
@@ -179,17 +179,17 @@
         $("#add-subject-form").submit(function(event) {
             event.preventDefault();
             let formData = $(this).serialize();
-            console.log(formData);
+            let inspectionID = $("#list-inspection").val();
 
             $.post({
                 url: '<?= site_url('controller_user/ajax_add_subject') ?>',
                 data: formData,
                 dataType: 'json'
             }).done(res => {
-                console.log(res);
                 if (res.status) {
                     $("#add-subject-form-result").attr('class', 'alert alert-success');
                     $("#add-subject-form-result").text(res.text);
+                    drawListSubject(inspectionID);
                 } else {
                     $("#add-subject-form-result").attr('class', 'alert alert-danger');
                     $("#add-subject-form-result").text(res.text);
@@ -231,13 +231,12 @@
             event.preventDefault();
             let formData = $(this).serialize();
             let inspectionID = $("#list-inspection").val();
-            
+
             $.post({
                 url: '<?= site_url('controller_user/ajax_update_subject') ?>',
                 data: formData,
                 dataType: 'json'
             }).done(res => {
-                console.log(res);
                 if (res.status) {
                     $("#edit-subject-form-result").attr('class', 'alert alert-success');
                     $("#edit-subject-form-result").text(res.text);

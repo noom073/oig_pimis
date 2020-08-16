@@ -28,6 +28,15 @@ class Oig_service_model extends CI_Model {
         return $result;
     }
 
+    public function get_inspection_one($inspectionID)
+    {
+        $this->oracle->select('INSPE_NAME, INSPE_ID');
+        $this->oracle->where('INSPE_ID', $inspectionID);
+        $result = $this->oracle->get("PIMIS_INSPECTIONS");
+
+        return $result;
+    }
+
     public function get_event_data()
     {
         $this->oracle->select('pp.INS_DATE, pp.FINISH_DATE, pu.DEPARTMENT_NAME');
@@ -49,9 +58,26 @@ class Oig_service_model extends CI_Model {
 
     public function get_subject_one($subjectID)
     {
-        $this->oracle->select('SUBJECT_ID, SUBJECT_NAME, SUBJECT_ORDER');
+        $this->oracle->select('SUBJECT_ID, SUBJECT_NAME, INSPECTION_ID, SUBJECT_ORDER');
         $this->oracle->where('SUBJECT_ID', $subjectID);
         $result = $this->oracle->get('PIMIS_SUBJECT');
+
+        return $result;
+    }
+
+    public function get_questions($subjectID)
+    {
+        $this->oracle->where('SUBJECT_ID', $subjectID);
+        $this->oracle->order_by('Q_ORDER');
+        $result = $this->oracle->get('PIMIS_QUESTION');
+
+        return $result;
+    }
+
+    public function get_question_one($questionID)
+    {
+        $this->oracle->where('Q_ID', $questionID);
+        $result = $this->oracle->get('PIMIS_QUESTION');
 
         return $result;
     }

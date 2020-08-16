@@ -79,5 +79,29 @@ class Controller_user_model extends CI_Model
 
         $result = $this->oracle->update('PIMIS_SUBJECT');
         return $result;
+    }    
+
+    public function insert_question($array)
+    {
+        $this->oracle->set('Q_NAME', $array['questionName']);
+        $this->oracle->set('Q_ORDER', $array['order']);
+        $this->oracle->set('SUBJECT_ID', $array['subjectID']);
+        $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
+        $this->oracle->set('USER_UPDATE', $array['userEmail']);
+
+        $insert = $this->oracle->insert('PIMIS_QUESTION');
+        return $insert;
+    }
+
+    public function update_question($array)
+    {
+        $this->oracle->set('Q_NAME', $array['questionName']);
+        $this->oracle->set('Q_ORDER', $array['order']);
+        $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
+        $this->oracle->set('USER_UPDATE', $array['userEmail']);
+        $this->oracle->where('Q_ID', $array['questionID']);
+
+        $insert = $this->oracle->update('PIMIS_QUESTION');
+        return $insert;
     }
 }

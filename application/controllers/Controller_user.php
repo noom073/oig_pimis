@@ -125,7 +125,7 @@ class Controller_user extends CI_Controller
 		$data['subject_name'] 	= $this->input->post('subject_name');
 		$data['inspection_id'] 	= $this->input->post('inspection_id');
 		$data['order_subject']	= $this->input->post('order');
-		$data['time']			= date('Y-m-d H:m:i');
+		$data['time']			= date('Y-m-d H:i:s');
 		$data['userEmail']		= $this->session->email;
 
 		$insert = $this->controller_user_model->add_subject($data);
@@ -145,7 +145,7 @@ class Controller_user extends CI_Controller
 		$data['subjectName'] 	= $this->input->post('subjectName');
 		$data['subjectID'] 		= $this->input->post('subjectID');
 		$data['subjectOrder']	= $this->input->post('subjectOrder');
-		$data['time']			= date('Y-m-d H:m:i');
+		$data['time']			= date('Y-m-d H:i:s');
 		$data['userEmail']		= $this->session->email;
 
 		$update = $this->controller_user_model->update_subject($data);
@@ -156,6 +156,55 @@ class Controller_user extends CI_Controller
 			$result['status'] 	= true;
 			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
 		}
+		echo json_encode($result);
+	}
+
+	public function subject_question($subjectID)
+	{
+		$data['subjectID'] = $subjectID;
+
+		$this->load->view('foundation_view/header');
+		$this->load->view('foundation_view/navbar_basic');
+		$this->load->view('controller_user_view/controller_user_menu');
+		$this->load->view('controller_user_view/question_subject_view', $data);
+		$this->load->view('foundation_view/footer');
+	}
+
+	public function ajax_add_question()
+	{
+		$data['questionName'] 	= $this->input->post('questionName');
+		$data['order'] 			= $this->input->post('order');
+		$data['subjectID'] 		= $this->input->post('subjectID');
+		$data['time']			= date('Y-m-d H:i:s');
+		$data['userEmail']		= $this->session->email;
+		$insert = $this->controller_user_model->insert_question($data);
+		if ($insert) {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลเรียบร้อย';
+		} else {
+			$result['status'] 	= false;
+			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
+		}
+		
+		echo json_encode($result);
+	}
+
+	public function ajax_update_question()
+	{
+		$data['questionName'] 	= $this->input->post('editQuestionName');
+		$data['order'] 			= $this->input->post('editOrder');
+		$data['questionID']		= $this->input->post('editQuestionID');
+		$data['time']			= date('Y-m-d H:i:s');
+		$data['userEmail']		= $this->session->email;
+		$update = $this->controller_user_model->update_question($data);
+		if ($update) {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลเรียบร้อย';
+		} else {
+			$result['status'] 	= false;
+			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
+		}
+		
 		echo json_encode($result);
 	}
 	

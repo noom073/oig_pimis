@@ -6,7 +6,7 @@
         <div class="collapse navbar-collapse" id="admin-menu-navbar">
             <div class="navbar-nav">
                 <a id="list-inspecting" class="nav-link text-info" href="<?= site_url('controller_user/list_inspecting') ?>">การตรวจราชการ</a>
-                <a id="type-inspection" class="nav-link text-info pl-0" href="<?= site_url('controller_user/index') ?>">ประเภทการตรวจ</a>
+                <a id="type-inspection" class="nav-link text-info" href="<?= site_url('controller_user/index') ?>">ประเภทการตรวจ</a>
                 <a id="subject-inspection" class="nav-link text-info" href="<?= site_url('controller_user/subject_inspection') ?>">หัวข้อการตรวจราชการ</a>
             </div>
         </div>
