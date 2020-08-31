@@ -207,5 +207,20 @@ class Controller_user extends CI_Controller
 		
 		echo json_encode($result);
 	}
+
+	public function ajax_delete_subject()
+	{
+		$subjectID 	= $this->input->post('subjectID');
+		$delete = $this->controller_user_model->dalete_subject($subjectID);
+		if ($delete) {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลเรียบร้อย';
+		} else {
+			$result['status'] 	= false;
+			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
+		}
+		
+		echo json_encode($result);
+	}
 	
 }

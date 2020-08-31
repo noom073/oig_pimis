@@ -104,4 +104,11 @@ class Controller_user_model extends CI_Model
         $insert = $this->oracle->update('PIMIS_QUESTION');
         return $insert;
     }
+
+    public function dalete_subject($subjectID)
+    {
+        $this->oracle->where('SUBJECT_ID', $subjectID);
+        $delete = $this->oracle->delete('PIMIS_SUBJECT');
+        return $delete;
+    }
 }

@@ -98,6 +98,40 @@
 </div>
 <!-- END Modal Edit subject -->
 
+<!-- Modal Delete subject -->
+<div class="modal fade" id="delete-subject-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ลบหัวข้อการตรวจ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form id="delete-subject-form">
+                        <div class="form-group">
+                            <label>ชื่อหัวข้อการตรวจ</label>
+                            <div class="" id="delete-subject-name"></div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input id="delete-subject-subjid" type="hidden" name="subjectID" value="">
+                            <button class="btn btn-info">ยืนยันการลบ</button>
+                        </div>
+                    </form>
+                    <div id="delete-subject-form-result"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Modal Delete subject -->
+
 <script>
     $(document).ready(function() {
 
@@ -123,8 +157,11 @@
                 let num = 0;
                 res.forEach(element => {
                     num += 1;
-                    list += `<p class="d-flex">
-                    <a href="<?= site_url('controller_user/subject_question') ?>/${element.SUBJECT_ID}">${num}. ${element.SUBJECT_NAME}</a> <button class="ml-auto btn btn-sm btn-info edit-subject" data-subject-id="${element.SUBJECT_ID}">Edit</button></p>`;
+                    let editBtn = `<button class="ml-auto btn btn-sm btn-info edit-subject" data-subject-id="${element.SUBJECT_ID}">Edit</button>`;
+                    let deleteBtn = `<button class="btn btn-sm btn-danger delete-subject" data-subject-id="${element.SUBJECT_ID}">Delete</button>`;
+                    let link = `<a href="<?= site_url('controller_user/subject_question') ?>/${element.SUBJECT_ID}">${num}. ${element.SUBJECT_NAME}</a>`;
+
+                    list += `<p class="d-flex">${link} ${editBtn} ${deleteBtn}</p>`;
                 });
 
                 $("#list-subject").html(list);
@@ -132,7 +169,6 @@
             }).fail((jhr, status, error) => {
                 console.error(jhr, status, error);
             });
-
         }
 
         /** ********************************************************/
@@ -224,7 +260,6 @@
                 console.error(jhr, status, error);
             });
         });
-
         /** ********************************************************/
 
         $("#edit-subject-form").submit(function(event) {
@@ -254,5 +289,44 @@
                 console.error(jhr, status, error);
             });
         });
+        /** ********************************************************/
+
+        $(document).on('click', '.delete-subject', function() {
+            let subjectDetail = $(this).siblings('a');
+            let subjectID = $(this).data('subject-id');
+            console.log(subjectID);
+            $("#delete-subject-name").text(subjectDetail.text());
+            $("#delete-subject-subjid").val(subjectID);
+            $("#delete-subject-modal").modal();
+        });
+        /** ********************************************************/
+
+        $("#delete-subject-form").submit(function(event) {
+            event.preventDefault();
+            let inspectionID = $("#list-inspection").val();
+            let formData = $(this).serialize();
+            $.post({
+                url: '<?= site_url('controller_user/ajax_delete_subject') ?>',
+                data: formData,
+                dataType: 'json'
+            }).done(res => {
+                if (res.status) {
+                    $("#delete-subject-form-result").attr('class', 'alert alert-success');
+                    $("#delete-subject-form-result").text(res.text);
+                    drawListSubject(inspectionID);
+                } else {
+                    $("#delete-subject-form-result").attr('class', 'alert alert-danger');
+                    $("#delete-subject-form-result").text(res.text);
+                }
+
+                setTimeout(() => {
+                    $("#delete-subject-form-result").attr('class', '');
+                    $("#delete-subject-form-result").text('');
+                }, 2500);
+            }).fail((jhr, status, error) => {
+                console.error(jhr, status, error);
+            });
+        });
+
     });
 </script>
