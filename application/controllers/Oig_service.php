@@ -26,22 +26,31 @@ class Oig_service extends CI_Controller
     {
         $events = $this->sv_model->get_event_data()->result_array();
 
+        // $results = array_map(function ($r) {
+        //     $data['title']  = $r['DEPARTMENT_NAME'];
+        //     $data['start']  = date_format(date_create($r['INS_DATE']), 'Y-m-d');
+        //     $data['end']    = date_format(date_create($r['FINISH_DATE']), 'Y-m-d');
+        //     return $data;
+        // }, $events);
         $results = array_map(function ($r) {
+            $data['idplan'] = $r['PID'];
             $data['title']  = $r['DEPARTMENT_NAME'];
             $data['start']  = date_format(date_create($r['INS_DATE']), 'Y-m-d');
-            $data['end']    = date_format(date_create($r['FINISH_DATE']), 'Y-m-d');
+            $date_end       = date_add(date_create($r['FINISH_DATE']), date_interval_create_from_date_string("1 days"));
+            $data['end']    = date_format($date_end, 'Y-m-d');
+            $data['backgroundColor'] = ($r['SET'] == 1 ? '' : 'green');
             return $data;
         }, $events);
         echo json_encode($results);
     }
 
     public function ajax_get_subject()
-	{
+    {
         $id = $this->input->post('inspection_id');
         $subject = $this->sv_model->get_subject($id)->result_array();
-		echo json_encode($subject);
+        echo json_encode($subject);
     }
-    
+
     public function ajax_get_subject_one()
     {
         $subjectID = $this->input->post('subjectID');

@@ -39,7 +39,7 @@ class Oig_service_model extends CI_Model {
 
     public function get_event_data()
     {
-        $this->oracle->select('pp.INS_DATE, pp.FINISH_DATE, pu.DEPARTMENT_NAME');
+        $this->oracle->select('pp.ID PID, pp."SET", pp.INS_DATE, pp.FINISH_DATE, pu.DEPARTMENT_NAME');
         $this->oracle->join('PITS_UNIT pu', 'pp.INS_UNIT = pu.ID');
         $result = $this->oracle->get('PITS_PLAN pp');
 

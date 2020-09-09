@@ -17,7 +17,8 @@
             <div class="container">
                 <div class="h5 p-3 text-center text-white" style="background-color: #154360;">รายการคำถาม</div>
                 <div class="p-3" id="wait-question">Loading question .....</div>
-                <div class="p-3" id="list-question"></div>
+                <div class="p-3" id="list-question"><!-- render data from JS drawQuestion() function --></div> 
+                
 
             </div>
 

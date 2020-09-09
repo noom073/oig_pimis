@@ -9,7 +9,7 @@
             <div class="m-3 border bg-white">
                 <div class="h5 text-center text-white p-3" style="background-color: #154360;">รายการหัวข้อการตรวจ</div>
                 <div class="p-3" id="wait-subject">Please select inspection</div>
-                <div class="p-3" id="list-subject"></div>
+                <div class="p-3" id="list-subject"><!-- render data from JS drawListSubject(inspectionID) function --></div>                
 
                 <div class="text-center">
                     <button id="add-subject-btn" class="btn btn-primary invisible">เพิ่มหัวข้อการตรวจ</button>

@@ -6,9 +6,6 @@
 
 <script>
     $(document).ready(function() {
-        setTimeout(() => {
-            $("#auditor-navbar > .navbar-nav > li#auditor-inspection").addClass("active");
-
-        }, 1000);
+        
     });
 </script>
