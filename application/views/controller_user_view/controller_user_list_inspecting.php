@@ -11,7 +11,7 @@
         </div>
 
         <div class="container">
-            <div id="loading-calendar">Calendar is loading .....</div>
+            <div id="loading-calendar">Loading calendar...</div>
             <div id="calendar" style="height: 70%; width: 100%;"></div>
         </div>
 

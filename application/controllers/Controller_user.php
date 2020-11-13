@@ -145,6 +145,7 @@ class Controller_user extends CI_Controller
 		$data['subjectName'] 	= $this->input->post('subjectName');
 		$data['subjectID'] 		= $this->input->post('subjectID');
 		$data['subjectOrder']	= $this->input->post('subjectOrder');
+		$data['subjectParentID']= $this->input->post('parentID');
 		$data['time']			= date('Y-m-d H:i:s');
 		$data['userEmail']		= $this->session->email;
 

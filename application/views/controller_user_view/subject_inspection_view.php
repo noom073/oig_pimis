@@ -9,7 +9,9 @@
             <div class="m-3 border bg-white">
                 <div class="h5 text-center text-white p-3" style="background-color: #154360;">รายการหัวข้อการตรวจ</div>
                 <div class="p-3" id="wait-subject">Please select inspection</div>
-                <div class="p-3" id="list-subject"><!-- render data from JS drawListSubject(inspectionID) function --></div>                
+                <div class="p-3" id="list-subject">
+                    <!-- render data from JS drawListSubject(inspectionID) function -->
+                </div>
 
                 <div class="text-center">
                     <button id="add-subject-btn" class="btn btn-primary invisible">เพิ่มหัวข้อการตรวจ</button>
@@ -73,13 +75,28 @@
                 <div class="container">
                     <form id="edit-subject-form">
                         <div class="form-group">
-                            <label>ชื่อหัวข้อการตรวจ</label>
+                            <label>ชื่อหัวข้อการตรวจ:</label>
                             <input class="form-control" id="edit-subject-name" type="text" name="subjectName" required>
                         </div>
 
                         <div class="form-group">
-                            <label>ลำดับ</label>
+                            <label>หัวข้อแม่:</label>
+                            <select class="form-control" name="parentID" id="edit-parent-subject"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>ลำดับหัวข้อ:</label>
                             <input class="form-control" id="edit-subject-order" type="number" name="subjectOrder" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>ระดับชั้นเชิงลึก:</label>
+                            <select name="level" class="form-control" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
                         </div>
 
                         <div class="form-group text-center">
@@ -145,6 +162,7 @@
             $("#add-subject-btn").text(`เพิ่มหัวข้อ${text}`);
         }
 
+        let subjects = [];
         function drawListSubject(inspectionID) {
             $.post({
                 url: '<?= site_url('oig_service/ajax_get_subject') ?>',
@@ -155,11 +173,12 @@
             }).done(res => {
                 let list = '';
                 let num = 0;
+                subjects = res; // ADD SUBJECTS TO subjects variable
                 res.forEach(element => {
                     num += 1;
                     let editBtn = `<button class="ml-auto btn btn-sm btn-info edit-subject" data-subject-id="${element.SUBJECT_ID}">Edit</button>`;
                     let deleteBtn = `<button class="btn btn-sm btn-danger delete-subject" data-subject-id="${element.SUBJECT_ID}">Delete</button>`;
-                    let link = `<a href="<?= site_url('controller_user/subject_question') ?>/${element.SUBJECT_ID}">${num}. ${element.SUBJECT_NAME}</a>`;
+                    let link = `<a href="<?= site_url('controller_user/subject_question') ?>/${element.SUBJECT_ID}" title="View question">${num}. ${element.SUBJECT_NAME}</a>`;
 
                     list += `<p class="d-flex">${link} ${editBtn} ${deleteBtn}</p>`;
                 });
@@ -196,7 +215,7 @@
             // console.log(res);
             let option = '<option value="">เลือกประเภทสายการตรวจ</option>';
             res.forEach(element => {
-                option += `<option value="${element.INSPE_ID}">${element.INSPE_NAME}</option> `;
+                option += `<option value="${element.INSPE_ID}">[ ${element.INSPE_NAME} ]</option> `;
             });
 
             $('#list-inspection').html(option);
@@ -251,7 +270,13 @@
                 },
                 dataType: 'json'
             }).done(res => {
-                // console.log(res);
+                console.log(res);
+                console.log(subjects);
+                let parentSubjOpt = '<option value="">ไม่ระบุ</option>';
+                subjects.forEach( element => {
+                    parentSubjOpt += `<option value="${element.SUBJECT_ID}" ${ res.SUBJECT_PARENT_ID === element.SUBJECT_ID ? 'selected':'' }>[ ${element.SUBJECT_NAME} ]</option>`;
+                });
+                $("#edit-parent-subject").html(parentSubjOpt);
                 $("#edit-subject-name").val(res.SUBJECT_NAME);
                 $("#edit-subject-order").val(res.SUBJECT_ORDER);
                 $("#edit-subject-subjid").val(res.SUBJECT_ID);

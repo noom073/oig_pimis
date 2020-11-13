@@ -10,6 +10,7 @@ class Authentication
     {
         $this->CI = &get_instance();
         $this->CI->load->library('session');
+        $this->CI->load->model('auth_model');
     }
 
     public function check_ad($rtarfMail, $password)
@@ -60,6 +61,51 @@ class Authentication
         }
         curl_close($curlAD);
         return $data;
+    }
+
+    public function login_process($checkADReturn)
+    {
+        // check user password SD
+        if ($checkADReturn['status'] === true && $checkADReturn['http_code'] == 200) {
+            $ADToken = json_decode($checkADReturn['response']);
+            $checkTokenReturn = $this->check_token($ADToken->TOKEN);
+
+            // check token
+            if ($checkTokenReturn['status'] === true && $checkTokenReturn['http_code'] == 200) {
+                $ADData = json_decode($checkTokenReturn['response']);
+                $userType = $this->CI->auth_model->get_user_type($ADData->EMAIL);
+
+                // check privilege existence 
+                if ($userType->num_rows() > 0) {
+                    $userData = $userType->row(); // return first row
+                    $sesData['usertype']    = $userData->TYPE_NAME;
+                    $sesData['nameth']      = $ADData->BIOG_NAME;
+                    $sesData['nameen']      = $ADData->BIOG_NAME_ENG;
+                    $sesData['email']       = $ADData->EMAIL;
+                    $sesData['mid']         = $ADData->BIOG_ID;
+                    $sesData['cid']         = $ADData->REG_CID;
+                    $sesData['isLogged']    = true;
+                    $this->CI->session->set_userdata($sesData);
+
+                    $result['status']   = true;
+                    $result['data']     = $sesData;
+                } else {
+                    $result['status']   = false;
+                    $result['text']     = 'ไม่พบสิทธิผู้ใช้นี้';
+                    $result['http_code']= 403;
+                }
+            } else {
+                $result['status']   = false;
+                $result['text']     = 'TOKEN นี้ ไม่พบข้อมูลผู้ใช้';
+                $result['http_code']= $checkTokenReturn['http_code'];
+            }
+        } else {
+            $result['status']   = false;
+            $result['text']     = 'Email หรือ Password ไม่ถูกต้อง';
+            $result['curldata'] = $checkADReturn; // return http code and curl data
+        }
+
+        return $result;
     }
 
     protected function check_login()

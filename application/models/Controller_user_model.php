@@ -73,6 +73,7 @@ class Controller_user_model extends CI_Model
     {
         $this->oracle->set('SUBJECT_NAME', $array['subjectName']);
         $this->oracle->set('SUBJECT_ORDER', $array['subjectOrder']);
+        $this->oracle->set('SUBJECT_PARENT_ID', $array['subjectParentID']);
         $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
         $this->oracle->set('USER_UPDATE', $array['userEmail']);
         $this->oracle->where('SUBJECT_ID', $array['subjectID']);
