@@ -136,7 +136,7 @@ class Controller_user extends CI_Controller
 			$result['status'] 	= true;
 			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
 		}
-		
+
 		echo json_encode($result);
 	}
 
@@ -145,7 +145,8 @@ class Controller_user extends CI_Controller
 		$data['subjectName'] 	= $this->input->post('subjectName');
 		$data['subjectID'] 		= $this->input->post('subjectID');
 		$data['subjectOrder']	= $this->input->post('subjectOrder');
-		$data['subjectParentID']= $this->input->post('parentID');
+		$data['subjectLevel']	= $this->input->post('level');
+		$data['subjectParentID'] = $this->input->post('parentID');
 		$data['time']			= date('Y-m-d H:i:s');
 		$data['userEmail']		= $this->session->email;
 
@@ -186,7 +187,7 @@ class Controller_user extends CI_Controller
 			$result['status'] 	= false;
 			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
 		}
-		
+
 		echo json_encode($result);
 	}
 
@@ -205,7 +206,7 @@ class Controller_user extends CI_Controller
 			$result['status'] 	= false;
 			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
 		}
-		
+
 		echo json_encode($result);
 	}
 
@@ -220,8 +221,29 @@ class Controller_user extends CI_Controller
 			$result['status'] 	= false;
 			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
 		}
-		
+
 		echo json_encode($result);
 	}
-	
+
+	public function ajax_add_sub_subject()
+	{
+		$data['subject_name'] 	= $this->input->post('subject_name');
+		$data['inspection_id'] 	= $this->input->post('inspection_id');
+		$data['parentID']		= $this->input->post('parentID');
+		$data['order']			= $this->input->post('order');
+		$data['level']			= $this->input->post('level');
+		$data['time']			= date('Y-m-d H:i:s');
+		$data['userEmail']		= $this->session->email;
+
+		$insert = $this->controller_user_model->add_sub_subject($data);
+		if ($insert) {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลเรียบร้อย';
+		} else {
+			$result['status'] 	= true;
+			$result['text'] 	= 'บันทึกข้อมูลไม่สำเร็จ';
+		}
+
+		echo json_encode($result);
+	}
 }

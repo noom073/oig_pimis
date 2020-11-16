@@ -48,7 +48,7 @@ class Oig_service_model extends CI_Model {
 
     public function get_subject($inspection_id)
     {
-        $this->oracle->select('SUBJECT_ID, SUBJECT_NAME');
+        $this->oracle->select('SUBJECT_ID, SUBJECT_NAME, INSPECTION_ID, SUBJECT_PARENT_ID, SUBJECT_LEVEL');
         $this->oracle->where('INSPECTION_ID', $inspection_id);
         $this->oracle->order_by('SUBJECT_ORDER');
         $result = $this->oracle->get('PIMIS_SUBJECT');
@@ -58,7 +58,7 @@ class Oig_service_model extends CI_Model {
 
     public function get_subject_one($subjectID)
     {
-        $this->oracle->select('SUBJECT_ID, SUBJECT_NAME, INSPECTION_ID, SUBJECT_ORDER, SUBJECT_PARENT_ID');
+        $this->oracle->select('SUBJECT_ID, SUBJECT_NAME, INSPECTION_ID, SUBJECT_ORDER, SUBJECT_PARENT_ID, SUBJECT_LEVEL');
         $this->oracle->where('SUBJECT_ID', $subjectID);
         $result = $this->oracle->get('PIMIS_SUBJECT');
 

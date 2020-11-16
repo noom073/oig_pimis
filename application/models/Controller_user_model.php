@@ -62,6 +62,21 @@ class Controller_user_model extends CI_Model
         $this->oracle->set('SUBJECT_NAME', $array['subject_name']);
         $this->oracle->set('INSPECTION_ID', $array['inspection_id'], false);
         $this->oracle->set('SUBJECT_ORDER', $array['order_subject']);
+        $this->oracle->set('SUBJECT_PARENT_ID', 0);
+        $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
+        $this->oracle->set('USER_UPDATE', $array['userEmail']);
+
+        $result = $this->oracle->insert('PIMIS_SUBJECT');
+        return $result;
+    }    
+
+    public function add_sub_subject($array)
+    {        
+        $this->oracle->set('SUBJECT_NAME', $array['subject_name']);
+        $this->oracle->set('INSPECTION_ID', $array['inspection_id'], false);
+        $this->oracle->set('SUBJECT_PARENT_ID', $array['parentID']);
+        $this->oracle->set('SUBJECT_ORDER', $array['order']);
+        $this->oracle->set('SUBJECT_LEVEL', $array['level']);
         $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
         $this->oracle->set('USER_UPDATE', $array['userEmail']);
 
@@ -74,6 +89,7 @@ class Controller_user_model extends CI_Model
         $this->oracle->set('SUBJECT_NAME', $array['subjectName']);
         $this->oracle->set('SUBJECT_ORDER', $array['subjectOrder']);
         $this->oracle->set('SUBJECT_PARENT_ID', $array['subjectParentID']);
+        $this->oracle->set('SUBJECT_LEVEL', $array['subjectLevel']);
         $this->oracle->set('TIME_UPDATE', "TO_DATE('{$array['time']}', 'YYYY-MM-DD HH24:MI:SS')", false);
         $this->oracle->set('USER_UPDATE', $array['userEmail']);
         $this->oracle->where('SUBJECT_ID', $array['subjectID']);
